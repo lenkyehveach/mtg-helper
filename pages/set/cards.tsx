@@ -93,15 +93,15 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
     });
 
     setResults(() => colorCostQuery);
-  }, [untappedLands]);
+  }, [untappedLands, colorsAv, data, landPipCount]);
   return (
     <>
       <h1 className="text-xl font-bold pt-8 pb-4 pl-4">Results: </h1>
       <div className="px-2 flex flex-wrap flex-col md:flex-row gap-4 justify-center items-center ">
         {results.map(({ id, name, imageUrl }) => (
-          <div key={id}>
+          <picture key={id}>
             <img alt={`${name} card`} src={imageUrl} />
-          </div>
+          </picture>
         ))}
       </div>
     </>
