@@ -93,7 +93,7 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
     });
 
     setResults(() => colorCostQuery);
-  }, []);
+  }, [mana]);
   return (
     <>
       <h1 className="text-xl font-bold pt-8 pb-4 pl-4">Results: </h1>
