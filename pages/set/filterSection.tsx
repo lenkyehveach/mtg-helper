@@ -102,7 +102,9 @@ const FilterSection: FC<FS> = ({ scrollY }) => {
       <div className="h-96 flex flex-col bg-slate-300 place-content-center gap-4 border-b border-black drop-shadow-lg">
         <form>
           <label className="flex flex-col items-center gap-4 text-l">
-            <span className="text-2xl py-4 ">Choose new land's colour(s):</span>
+            <span className="text-2xl py-4 ">
+              Choose new land&quot;s colour(s):
+            </span>
             <select
               ref={formRef}
               className="border-2 font-bold w-[90vw] md:w-24 h-10 px-4"
