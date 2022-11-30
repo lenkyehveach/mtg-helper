@@ -3,7 +3,7 @@ import { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 
 import FilterSection from "../../components/filterSection";
-import { useScrollPos } from "./useScrollPos";
+import { useScrollPos } from "../../hooks/useScrollPos";
 
 import { createContext } from "react";
 
