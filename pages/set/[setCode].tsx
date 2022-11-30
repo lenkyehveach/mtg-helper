@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
 import { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { Card } from "@material-ui/core";
+
+import FilterSection from "./filterSection";
+import { useScrollPos } from "./useScrollPos";
+
+import { createContext } from "react";
 
 export type Card = {
   id: string;
@@ -11,7 +15,7 @@ export type Card = {
   colors: Array<string> | null;
   colorIdentity: Array<string> | null;
   types: Array<string>;
-  imageUrl: string | null;
+  imageUrl: string;
   variations: Array<string> | null;
 };
 
@@ -39,7 +43,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         colorIdentity:
           card.colorIdentity != undefined ? card.colorIdentity : null,
         types: card.types,
-        imageUrl: card.imageUrl != undefined ? card.imageUrl : null,
+        imageUrl: card.imageUrl != undefined ? card.imageUrl : "",
         variations: card.variations != undefined ? card.variations : null,
       };
     });
@@ -84,8 +88,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return res;
   };
+  const removeLands = (cards: Card[]) => {
+    return cards.filter(({ types }) => !types.includes("Land"));
+  };
 
-  const fs_reduced = removeMultipleCards(await getFullSet());
+  const fs_reduced = removeLands(removeMultipleCards(await getFullSet()));
 
   return {
     props: {
@@ -106,21 +113,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+export const cardsContext = createContext<Card[]>([]);
+
 const SetPage: NextPage<setPageProps> = ({ cards }) => {
   const router = useRouter();
   const { setCode } = router.query;
+  const scrollY = useScrollPos();
 
   return (
-    <>
-      <p>
-        {setCode} : {cards.length}{" "}
-      </p>
-      <div>
-        {cards.map((card, ind) => (
-          <h2 key={ind}>{card.name}</h2>
-        ))}
-      </div>
-    </>
+    <cardsContext.Provider value={cards}>
+      <FilterSection scrollY={scrollY} />
+    </cardsContext.Provider>
   );
 };
 

@@ -41,10 +41,9 @@ import FilterSection from "./set/filterSection";
 export default function Home() {
   return (
     <main>
-      {/* <h1>Welcome, Gamer!</h1>
+      <h1>Welcome, Gamer!</h1>
       <h2>Select which set you will be playing today</h2>
-      <CardSet /> */}
-      <FilterSection data={[]} />
+      <CardSet />
     </main>
   );
 }
