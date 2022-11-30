@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 
-import FilterSection from "./filterSection";
+import FilterSection from "../../components/filterSection";
 import { useScrollPos } from "./useScrollPos";
 
 import { createContext } from "react";

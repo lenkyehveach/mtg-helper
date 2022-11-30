@@ -36,7 +36,7 @@
 // };
 
 import CardSet from "./cardSet";
-import FilterSection from "./set/filterSection";
+import FilterSection from "../components/filterSection";
 
 export default function Home() {
   return (

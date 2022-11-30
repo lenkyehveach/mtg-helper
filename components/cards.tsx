@@ -1,7 +1,7 @@
-import { Card } from "./[setCode]"; // type
+import { Card } from "../pages/set/[setCode]"; // type
 import { Land } from "./filterSection";
 
-import { cardsContext } from "./[setCode]";
+import { cardsContext } from "../pages/set/[setCode]";
 
 import { FC, useContext, useEffect, useState } from "react";
 
