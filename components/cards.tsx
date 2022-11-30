@@ -100,6 +100,7 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
       <div className="px-2 flex flex-wrap flex-col md:flex-row gap-4 justify-center items-center ">
         {results.map(({ id, name, imageUrl }) => (
           <picture key={id}>
+            <source srcSet={imageUrl} type="image/webp" />
             <img alt={`${name} card`} src={imageUrl} />
           </picture>
         ))}
