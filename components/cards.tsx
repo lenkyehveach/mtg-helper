@@ -100,14 +100,8 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
       <div className="px-2 flex flex-wrap flex-col md:flex-row gap-4 justify-center items-center ">
         {results.map(({ id, name, imageUrl }) => (
           <picture key={id}>
-            <source
-              srcSet="https://cards.scryfall.io/normal/front/f/0/f0192cf7-3391-4720-b9c8-72dec5dde01e.jpg?1643593808"
-              type="image/webp"
-            />
-            <img
-              alt={`${name} card`}
-              src="https://cards.scryfall.io/normal/front/f/0/f0192cf7-3391-4720-b9c8-72dec5dde01e.jpg?1643593808"
-            />
+            <source srcSet={imageUrl} type="image/webp" />
+            <img alt={`${name} card`} src={imageUrl} />
           </picture>
         ))}
       </div>
