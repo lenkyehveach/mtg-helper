@@ -1,5 +1,5 @@
 import { Card } from "../pages/set/[setCode]"; // type
-import { Land } from "./filterSection";
+import { LandType } from "./filterSection";
 
 import { cardsContext } from "../pages/set/[setCode]";
 
@@ -7,7 +7,7 @@ import { FC, useContext, useEffect, useState } from "react";
 
 interface CardProps {
   mana: number;
-  untappedLands: Land[];
+  untappedLands: LandType[];
   phase: boolean;
 }
 
@@ -98,10 +98,10 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
     <>
       <h1 className="text-xl font-bold pt-8 pb-4 pl-4">Results: </h1>
       <div className="px-2 flex flex-wrap flex-col md:flex-row gap-4 justify-center items-center ">
-        {results.map(({ id, name, imageUrl }) => (
+        {results.map(({ id, name, imgUrl }) => (
           <picture key={id}>
-            <source srcSet={imageUrl} type="image/webp" />
-            <img alt={`${name} card`} src={imageUrl} />
+            <source srcSet={imgUrl} type="image/webp" />
+            <img alt={`${name} card`} src={imgUrl} />
           </picture>
         ))}
       </div>

@@ -1,7 +1,7 @@
-import { Land } from "./filterSection";
+import { LandType } from "./filterSection";
 
 interface LandProps {
-  land: Land;
+  land: LandType;
   onClick: (id: string) => void;
 }
 

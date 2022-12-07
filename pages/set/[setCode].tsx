@@ -14,9 +14,9 @@ export type Card = {
   cmc: number;
   colors: Array<string> | null;
   colorIdentity: Array<string> | null;
-  types: Array<string>;
-  imageUrl: string;
-  variations: Array<string> | null;
+  types: string;
+  keywords: string[];
+  imgUrl: string;
 };
 
 interface IParams extends ParsedUrlQuery {
@@ -28,81 +28,63 @@ interface setPageProps {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const getCards = async (set: string, n: number) => {
-    const res = await fetch(
-      `https://api.magicthegathering.io/v1/cards?set=${set}&page=${n.toString()}`
-    );
-    const { cards } = await res.json();
-    const data = cards.map((card: Card) => {
-      return {
-        id: card.id,
-        name: card.name,
-        manaCost: card.manaCost != undefined ? card.manaCost : null,
-        cmc: card.cmc,
-        colors: card.colors != undefined ? card.colors : null,
-        colorIdentity:
-          card.colorIdentity != undefined ? card.colorIdentity : null,
-        types: card.types,
-        imageUrl: card.imageUrl != undefined ? card.imageUrl : "",
-        variations: card.variations != undefined ? card.variations : null,
-      };
-    });
+  const { setCode } = context.params as IParams;
 
-    return data;
-  };
+  const getCardInfo = async (num: number) => {
+    let imgUrl: string;
+    const result = await fetch(
+      `https://api.scryfall.com/cards/${setCode}/${num}`
+    ).then((res) => res.json());
 
-  const getFullSet = async () => {
-    const { setCode } = context.params as IParams;
-
-    let fullSet: Card[] = [];
-    let done = false;
-    let i = 0;
-    while (!done) {
-      let data: Array<Card> = await getCards(setCode, i + 1);
-
-      if (data.length == 0) {
-        done = true;
-        break;
-      }
-      fullSet.push(...data);
-
-      i++;
-    }
-    return fullSet;
-  };
-
-  const removeMultipleCards = (cards: Card[]) => {
-    let cardVariations = cards.filter((card) => card.variations != null);
-
-    let badIds: string[] = [];
-
-    for (let i = 0; i < cardVariations.length; i++) {
-      let currentCard = cardVariations[i];
-      if (badIds.includes(currentCard.id)) break;
-      currentCard.variations?.forEach((badId) => {
-        badIds.push(badId);
-      });
+    if ("card_faces" in result) {
+      imgUrl = result.card_faces[0].image_uris.png;
+    } else {
+      imgUrl = result.image_uris.png;
     }
 
-    let res = cards.filter((card: Card) => !badIds.includes(card.id));
-
-    return res;
+    return {
+      id: result.id,
+      name: result.name,
+      manaCost: result.manaCost != undefined ? result.manaCost : null,
+      cmc: result.cmc,
+      colors: result.colors != undefined ? result.colors : null,
+      colorIdentity:
+        result.colorIdentity != undefined ? result.colorIdentity : null,
+      types: result.type_line,
+      keywords: result.keywords,
+      imgUrl: imgUrl,
+    } as Card;
   };
+
+  const getSet = async () => {
+    const setResult = await fetch(
+      `https://api.scryfall.com/sets/${setCode}`
+    ).then((res) => res.json());
+    const setLength = setResult.printed_size;
+    let setCards = [];
+    for (let i = 1; i <= setLength; i++) {
+      const card = await getCardInfo(i);
+      setCards.push(card);
+      console.log(i);
+    }
+    return setCards;
+  };
+
   const removeLands = (cards: Card[]) => {
     return cards.filter(({ types }) => !types.includes("Land"));
   };
 
-  const fs_reduced = removeLands(removeMultipleCards(await getFullSet()));
+  const fullSetReduced = removeLands(await getSet());
 
   return {
     props: {
-      cards: fs_reduced,
+      cards: fullSetReduced,
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = ["NEO", "BRO"].map((s) => ({
+  const paths = ["neo", "bro"].map((s) => ({
     params: {
       setCode: s,
     },

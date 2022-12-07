@@ -4,7 +4,7 @@ import CardsList from "./cards";
 import { FC, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-export type Land = {
+export type LandType = {
   id: string;
   clrs: string[];
   tapped: boolean;
@@ -15,14 +15,14 @@ interface FS {
 }
 
 const FilterSection: FC<FS> = ({ scrollY }) => {
-  const [lands, setLands] = useState<Land[]>([]);
+  const [lands, setLands] = useState<LandType[]>([]);
   const [phase, setPhase] = useState<boolean>(true);
   const formRef = useRef<HTMLSelectElement>(null);
 
   const addLand = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
 
-    const newLand: Land = {
+    const newLand: LandType = {
       id: uuidv4(),
       clrs: formRef.current!.value.split("/"),
       tapped: false,
