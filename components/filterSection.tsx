@@ -97,8 +97,8 @@ const FilterSection: FC<FS> = ({ scrollY }) => {
     );
   };
 
-  return (
-    <main className="relative">
+  const FullFS = () => {
+    return (
       <div className="h-96 flex flex-col bg-slate-300 place-content-center gap-4 border-b border-black drop-shadow-lg">
         <form>
           <label className="flex flex-col items-center gap-4 text-l">
@@ -192,7 +192,11 @@ const FilterSection: FC<FS> = ({ scrollY }) => {
           </div>
         </div>
       </div>
-      {scrollY > 364 && <CollapsedFS />}
+    );
+  };
+  return (
+    <main className="relative">
+      {scrollY < 364 ? <FullFS /> : <CollapsedFS />}
 
       <CardsList mana={untapped} untappedLands={untappedLands} phase={phase} />
     </main>
