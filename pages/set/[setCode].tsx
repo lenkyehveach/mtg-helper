@@ -31,25 +31,27 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { setCode } = context.params as IParams;
 
   const getCardInfo = async (num: number) => {
-    let imgUrl: string;
+    let imgUrl: string, colors: string[];
     const result = await fetch(
       `https://api.scryfall.com/cards/${setCode}/${num}`
     ).then((res) => res.json());
 
     if ("card_faces" in result) {
       imgUrl = result.card_faces[0].image_uris.png;
+      colors = result.card_faces[0].colors;
     } else {
       imgUrl = result.image_uris.png;
+      colors = result.colors;
     }
 
     return {
       id: result.id,
       name: result.name,
-      manaCost: result.manaCost != undefined ? result.manaCost : null,
+      manaCost: result.mana_cost != undefined ? result.mana_cost : null,
       cmc: result.cmc,
-      colors: result.colors != undefined ? result.colors : null,
+      colors: colors,
       colorIdentity:
-        result.colorIdentity != undefined ? result.colorIdentity : null,
+        result.color_identity != undefined ? result.color_identity : null,
       types: result.type_line,
       keywords: result.keywords,
       imgUrl: imgUrl,

@@ -4,12 +4,7 @@ const nextConfig = {
   swcMinify: true,
 
   images: {
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "gatherer.wizards.com",
-      },
-    ],
+    domains: ["cards.scryfall.io"],
   },
 };
 

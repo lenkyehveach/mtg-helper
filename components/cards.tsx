@@ -4,6 +4,7 @@ import { LandType } from "./filterSection";
 import { cardsContext } from "../pages/set/[setCode]";
 
 import { FC, useContext, useEffect, useState } from "react";
+import Image from "next/image";
 
 interface CardProps {
   mana: number;
@@ -31,6 +32,7 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
   };
 
   let colorsAv = getColorSet();
+  console.log("colorsAV ");
   console.log(colorsAv);
   let availableLands: string[] = [];
   untappedLands.forEach(({ clrs }) => availableLands.push(...clrs));
@@ -46,6 +48,9 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
         [land]: currentLand + 1,
       };
     }, {} as { [key: string]: number });
+
+  console.log("landPipCount");
+  console.log(landPipCount);
 
   useEffect(() => {
     let manaQuery = data.filter(({ cmc }) => cmc <= mana);
@@ -79,6 +84,8 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
           },
           {} as any
         );
+        console.log("costpip count");
+        console.log(CostPipCount);
         let colorMatchRes = 0;
         let pipColors = Array.from(new Set(pips));
         pipColors.forEach((pipColor) => {
@@ -91,18 +98,23 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
         return false;
       }
     });
-
+    console.log("colorCost");
+    console.log(colorCostQuery);
     setResults(() => colorCostQuery);
   }, [mana]);
+
   return (
     <>
       <h1 className="text-xl font-bold pt-8 pb-4 pl-4">Results: </h1>
       <div className="px-2 flex flex-wrap flex-col md:flex-row gap-4 justify-center items-center ">
         {results.map(({ id, name, imgUrl }) => (
-          <picture key={id}>
-            <source srcSet={imgUrl} type="image/webp" />
-            <img alt={`${name} card`} src={imgUrl} />
-          </picture>
+          // <picture key={id}>
+          //   <source srcSet={imgUrl} type="image/webp" />
+          //   <img alt={`${name} card`} src={imgUrl} />
+          // </picture>
+          <div key={id}>
+            <Image alt={`${name} card`} src={imgUrl} height={300} width={300} />
+          </div>
         ))}
       </div>
     </>
