@@ -31,24 +31,24 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
     return Array.from(colorsAv);
   };
 
-  let colorsAv = getColorSet();
-
-  let availableLands: string[] = [];
-  untappedLands.forEach(({ clrs }) => availableLands.push(...clrs));
-
-  let landPipCount: {
-    [key: string]: number;
-  } = availableLands
-    .map((clrs) => getPipFromColor(clrs))
-    .reduce((all, land) => {
-      const currentLand = all[land] ?? 0;
-      return {
-        ...all,
-        [land]: currentLand + 1,
-      };
-    }, {} as { [key: string]: number });
-
   useEffect(() => {
+    let colorsAv = getColorSet();
+    let availableLands: string[] = [];
+
+    untappedLands.forEach(({ clrs }) => availableLands.push(...clrs));
+
+    let landPipCount: {
+      [key: string]: number;
+    } = availableLands
+      .map((clrs) => getPipFromColor(clrs))
+      .reduce((all, land) => {
+        const currentLand = all[land] ?? 0;
+        return {
+          ...all,
+          [land]: currentLand + 1,
+        };
+      }, {} as { [key: string]: number });
+
     let manaQuery = data.filter(({ cmc }) => cmc <= mana);
 
     if (!phase)

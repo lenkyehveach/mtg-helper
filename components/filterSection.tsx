@@ -113,7 +113,7 @@ const FilterSection: FC<FS> = ({ scrolled }) => {
         <form>
           <label className="flex flex-col items-center gap-4 ">
             <span className="text-xl font-bold text-center text-kobe">
-              Opponent's Lands:
+              Opponent&apos;s Lands:
             </span>
             <div className="flex flex-row flex-wrap h-24 gap-1 place-content-center overflow-hidden">
               {lands.map((land) => {
