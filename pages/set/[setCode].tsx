@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from "querystring";
 
 import FilterSection from "../../components/filterSection";
 import { useScrollPos } from "../../hooks/useScrollPos";
+import { useHasScrolled } from "../../hooks/useHasScrolled";
 
 import { createContext } from "react";
 
@@ -100,14 +101,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const cardsContext = createContext<Card[]>([]);
 
 const SetPage: NextPage<setPageProps> = ({ cards }) => {
-  const router = useRouter();
-  const { setCode } = router.query;
   const scrollY = useScrollPos();
 
+  const hasScrolled = useHasScrolled();
+  console.log(hasScrolled);
   return (
-    <cardsContext.Provider value={cards}>
-      <FilterSection scrollY={scrollY} />
-    </cardsContext.Provider>
+    <div className="h-full w-screen ">
+      <cardsContext.Provider value={cards}>
+        <FilterSection scrolled={hasScrolled} />
+      </cardsContext.Provider>
+    </div>
   );
 };
 

@@ -36,9 +36,9 @@ const Land = ({ land, onClick }: LandProps) => {
   }
 
   return (
-    <div className="h-16 w-12" style={{ opacity: land.tapped ? "0.5" : "1" }}>
+    <div className="h-20 w-12" style={{ opacity: land.tapped ? "0.5" : "1" }}>
       <button
-        className={"h-full w-full border border-slate-400 "}
+        className={"h-full w-full border border-slate-300 "}
         style={styles}
         onClick={() => onClick(land.id)}
       ></button>

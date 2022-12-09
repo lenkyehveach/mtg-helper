@@ -5,7 +5,7 @@ export const useScrollPos = () => {
 
   useEffect(() => {
     function updatePos() {
-      setScrollPos(window.scrollY);
+      setScrollPos(() => window.scrollY);
     }
     window.addEventListener("scroll", updatePos);
     //updatePos();
