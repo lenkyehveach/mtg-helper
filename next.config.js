@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
 
   images: {
-    domains: ["cards.scryfall.io"],
+    domains: ["cards.scryfall.io", "svgs.scryfall.io"],
   },
 };
 
