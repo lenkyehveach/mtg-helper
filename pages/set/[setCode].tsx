@@ -37,6 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       `https://api.scryfall.com/cards/${setCode}/${num}`
     ).then((res) => res.json());
 
+    if (result.status == 404) return;
     if ("card_faces" in result) {
       imgUrl = result.card_faces[0].image_uris.png;
       colors = result.card_faces[0].colors;
@@ -63,11 +64,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const setResult = await fetch(
       `https://api.scryfall.com/sets/${setCode}`
     ).then((res) => res.json());
-    const setLength = setResult.printed_size;
+
+    const setLength =
+      setResult.printed_size != undefined
+        ? setResult.printed_size
+        : setResult.card_count;
     let setCards = [];
     for (let i = 1; i <= setLength; i++) {
       const card = await getCardInfo(i);
-      setCards.push(card);
+
+      if (card != undefined) setCards.push(card);
       console.log(i);
     }
     return setCards;
@@ -77,7 +83,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return cards.filter(({ types }) => !types.includes("Land"));
   };
 
-  const fullSetReduced = removeLands(await getSet());
+  const removeCopies = (cards: Card[]) => {
+    let reducedNames: string[] = [];
+    let reducedIds: string[] = [];
+    for (const card of cards) {
+      if (!reducedNames.includes(card.name)) {
+        reducedNames.push(card.name);
+        reducedIds.push(card.id);
+      }
+    }
+
+    return cards.filter((card) => reducedIds.includes(card.id));
+  };
+
+  const fullSetReduced = removeCopies(removeLands(await getSet()));
 
   return {
     props: {
@@ -87,7 +106,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = ["neo", "bro"].map((s) => ({
+  const paths = ["mid", "vow", "neo", "snc", "dmu", "bro"].map((s) => ({
     params: {
       setCode: s,
     },
@@ -101,10 +120,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const cardsContext = createContext<Card[]>([]);
 
 const SetPage: NextPage<setPageProps> = ({ cards }) => {
-  const scrollY = useScrollPos();
-
   const hasScrolled = useHasScrolled();
-  console.log(hasScrolled);
+
   return (
     <div className="h-full w-screen ">
       <cardsContext.Provider value={cards}>
