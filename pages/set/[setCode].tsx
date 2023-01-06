@@ -41,7 +41,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       imgUrl = result.card_faces[0].image_uris.png;
       colors = result.card_faces[0].colors;
     } else {
-      console.log(result.image_uris.png);
       imgUrl = result.image_uris.png;
       colors = result.colors;
     }
@@ -72,11 +71,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
     let setCards = [];
     for (let i = 1; i <= setLength; i++) {
       const card = await getCardInfo(i);
-      console.log(card);
+
+      if (card == undefined) console.log(i);
 
       if (card !== undefined) {
         setCards.push(card);
-        console.log(i);
       }
     }
     return setCards;
