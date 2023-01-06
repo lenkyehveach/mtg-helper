@@ -4,6 +4,8 @@ import CardsList from "./cards";
 import { FC, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
 
 export type LandType = {
   id: string;
@@ -215,6 +217,17 @@ const FilterSection: FC<FS> = ({ scrolled }) => {
           //   height: scrolled ? "6rem" : "24rem",
           // }}
         >
+          <Link href="/" passHref legacyBehavior>
+            <a className="absolute top-2 left-2 ">
+              <Image
+                src="/arrow_left.svg"
+                alt="back arrow to navigate to home page"
+                width={48}
+                height={48}
+              />
+            </a>
+          </Link>
+
           <FullFS />
         </motion.div>
       </AnimatePresence>

@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         <h1 className="text-center font-bold my-3 text-3xl underline underline-offset-8">
           Welcome, Gamer!
         </h1>
-        <h2>Select which set you will be playing today</h2>
+        <h2>Which set you will be playing today?</h2>
         <CardSet />
         <Link
           href="/about"

@@ -105,6 +105,8 @@ const CardsList: FC<CardProps> = ({ mana, untappedLands, phase }) => {
             <Image
               alt={`${name} card`}
               src={imgUrl}
+              placeholder="blur"
+              blurDataURL={imgUrl}
               width={300}
               height={300}
               className="object-contain"
