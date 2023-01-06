@@ -65,15 +65,17 @@ export const getStaticProps: GetStaticProps = async (context) => {
     ).then((res) => res.json());
 
     const setLength =
-      setResult.printed_size != undefined
+      "printed_size" in setResult
         ? setResult.printed_size
         : setResult.card_count;
     let setCards = [];
     for (let i = 1; i <= setLength; i++) {
       const card = await getCardInfo(i);
-
-      if (card != undefined) setCards.push(card);
-      console.log(i);
+      if (card == undefined) console.log("hello");
+      if (card != undefined) {
+        setCards.push(card);
+        console.log(i);
+      }
     }
     return setCards;
   };
