@@ -115,9 +115,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
     },
   };
 };
-// "mid", "vow", "neo",
+// "mid", "vow", "neo","snc", "dmu",
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = ["snc", "dmu", "bro"].map((s) => ({
+  const paths = ["bro"].map((s) => ({
     params: {
       setCode: s,
     },

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 
-//"mid", "vow", "neo",
-const sets = ["snc", "dmu", "bro"];
+//"mid", "vow", "neo", "snc", "dmu",
+const sets = ["bro"];
 
 const CardSet = () => {
   return (
