@@ -37,43 +37,35 @@ export const getStaticProps: GetStaticProps = async (context) => {
     )
       .then((res) => res.json())
       .then((res) => {
-        if (res.status == 404) {
-          return;
+        if ("card_faces" in res) {
+          console.log(res.card_faces[0].image_uris.png);
+          res.imgUrl = res.card_faces[0].image_uris.png;
+          res.colors = res.card_faces[0].colors;
+          res.mana_cost = res.card_faces[0].mana_cost;
         } else {
-          if ("card_faces" in res) {
-            console.log(res.card_faces[0].image_uris.png);
-            res.imgUrl = res.card_faces[0].image_uris.png;
-            res.colors = res.card_faces[0].colors;
-            res.mana_cost = res.card_faces[0].mana_cost;
-          } else {
-            res.imgUrl = res.image_uris.png;
-            res.colors = res.colors;
-            res.mana_cost = res.mana_cost;
-          }
-          return res;
+          res.imgUrl = res.image_uris.png;
+          res.colors = res.colors;
+          res.mana_cost = res.mana_cost;
         }
+        return res;
       });
 
-    // if ("card_faces" in result) {
-    //   imgUrl = result.card_faces[0].image_uris.png;
-    //   colors = result.card_faces[0].colors;
-    // } else {
-    //   imgUrl = result.image_uris.png;
-    //   colors = result.colors;
-    // }
-
-    return {
-      id: result.id,
-      name: result.name,
-      manaCost: result.mana_cost != undefined ? result.mana_cost : null,
-      cmc: result.cmc,
-      colors: result.colors,
-      colorIdentity:
-        result.color_identity != undefined ? result.color_identity : null,
-      types: result.type_line,
-      keywords: result.keywords,
-      imgUrl: result.imgUrl,
-    } as Card;
+    if ("status" in result) {
+      return;
+    } else {
+      return {
+        id: result.id,
+        name: result.name,
+        manaCost: result.mana_cost != undefined ? result.mana_cost : null,
+        cmc: result.cmc,
+        colors: result.colors,
+        colorIdentity:
+          result.color_identity != undefined ? result.color_identity : null,
+        types: result.type_line,
+        keywords: result.keywords,
+        imgUrl: result.imgUrl,
+      } as Card;
+    }
   };
 
   const getSet = async () => {
@@ -89,8 +81,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     // chnage to set length
     for (let i = 1; i <= setLength; i++) {
       const card = await getCardInfo(i);
-
-      if (card == undefined) console.log(i);
 
       if (card !== undefined) {
         setCards.push(card);
