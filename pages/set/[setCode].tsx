@@ -37,35 +37,35 @@ export const getStaticProps: GetStaticProps = async (context) => {
     )
       .then((res) => res.json())
       .then((res) => {
-        if ("card_faces" in res) {
-          console.log(res.card_faces[0].image_uris.png);
-          res.imgUrl = res.card_faces[0].image_uris.png;
-          res.colors = res.card_faces[0].colors;
-          res.mana_cost = res.card_faces[0].mana_cost;
+        if ("status" in res) {
+          return 0;
         } else {
-          res.imgUrl = res.image_uris.png;
-          res.colors = res.colors;
-          res.mana_cost = res.mana_cost;
+          if ("card_faces" in res) {
+            console.log(res.card_faces[0].image_uris.png);
+            res.imgUrl = res.card_faces[0].image_uris.png;
+            res.colors = res.card_faces[0].colors;
+            res.mana_cost = res.card_faces[0].mana_cost;
+          } else {
+            res.imgUrl = res.image_uris.png;
+            res.colors = res.colors;
+            res.mana_cost = res.mana_cost;
+          }
+          return res;
         }
-        return res;
       });
 
-    if ("status" in result) {
-      return;
-    } else {
-      return {
-        id: result.id,
-        name: result.name,
-        manaCost: result.mana_cost != undefined ? result.mana_cost : null,
-        cmc: result.cmc,
-        colors: result.colors,
-        colorIdentity:
-          result.color_identity != undefined ? result.color_identity : null,
-        types: result.type_line,
-        keywords: result.keywords,
-        imgUrl: result.imgUrl,
-      } as Card;
-    }
+    return {
+      id: result.id,
+      name: result.name,
+      manaCost: result.mana_cost != undefined ? result.mana_cost : null,
+      cmc: result.cmc,
+      colors: result.colors,
+      colorIdentity:
+        result.color_identity != undefined ? result.color_identity : null,
+      types: result.type_line,
+      keywords: result.keywords,
+      imgUrl: result.imgUrl,
+    } as Card;
   };
 
   const getSet = async () => {
@@ -82,7 +82,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     for (let i = 1; i <= setLength; i++) {
       const card = await getCardInfo(i);
 
-      if (card !== undefined) {
+      if (card.id !== undefined) {
         setCards.push(card);
         console.log(card);
       }
