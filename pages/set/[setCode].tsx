@@ -82,7 +82,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     let setCards = [];
     // chnage to set length
     for (let i = 1; i <= setLength; i++) {
-      delay(50);
+      await delay(50);
       const card = await getCardInfo(i);
 
       if (card.id !== undefined) {
