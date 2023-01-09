@@ -1,4 +1,4 @@
-import CardSet from "./cardSet";
+import CardSet from "../components/cardSet";
 
 import { NextPage } from "next";
 import Link from "next/link";
