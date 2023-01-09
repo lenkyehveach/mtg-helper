@@ -27,6 +27,8 @@ interface setPageProps {
   cards: Card[];
 }
 
+const delay = (ms = 1000) => new Promise((r) => setTimeout(r, ms));
+
 export const getStaticProps: GetStaticProps = async (context) => {
   const { setCode } = context.params as IParams;
 
@@ -80,6 +82,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     let setCards = [];
     // chnage to set length
     for (let i = 1; i <= setLength; i++) {
+      delay(50);
       const card = await getCardInfo(i);
 
       if (card.id !== undefined) {
